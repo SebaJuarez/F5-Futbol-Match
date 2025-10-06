@@ -1,351 +1,177 @@
-# TP Integrador Match Making Futbol 5
 
-## Estructura del Proyecto
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/pfrovdev/matchmaking-futbol-paw">
+    <img src="https://github.com/user-attachments/assets/be273530-6750-46c1-965b-ee19e635c81e" alt="Matchmaking Fútbol 5">
+  </a>
+  <h3 align="center">Sistema de matchmaking para futbol amateur</h3>
+  <p align="center"><a href="https://github.com/pfrovdev/matchmaking-futbol-paw"><strong>Explorar el repositorio</strong></a></p>
+</p>
 
-```bash
-.
-├── public/
-│   ├── icons/
-│   ├── css/
-│   ├── js/
-│   └── index.php
-├── src/
-│   ├── App/
-│   │   ├── Controllers/
-│   │   │   ├──AuthController.php
-│   │   │   ├──EquipoController.php
-│   │   │   ├──EstadoDesafioController.php
-│   │   │   ├──EstadoIteracionController.php
-│   │   │   ├──EstadoPartidoController.php
-│   │   │   ├──PageController.php
-│   │   │   └──TipoEquipoController.php
-│   │   ├── Models/
-│   │   │   ├──Comentario.php
-│   │   │   ├──Desafio.php
-│   │   │   ├──Equipo.php
-│   │   │   ├──EquipoCollection.php
-│   │   │   ├──Estadisticas.php
-│   │   │   ├──EstadoDesafio.php
-│   │   │   ├──EstadoIteracion.php
-│   │   │   ├──EstadoPartido.php
-│   │   │   ├──NivelElo.php
-│   │   │   ├──Partido.php
-│   │   │   ├──ResultadoPartido.php
-│   │   │   └──TipoEquipo.php
-│   │   ├── Utils/
-│   │   │   └──CalculadoraDeElo.php
-│   │   ├── Views/
-│   │   │   └── parts/
-│   │   │       ├──footer.php
-│   │   │       ├──header-no-account.php
-│   │   │       ├──header.php
-│   │   │       ├──nav.php
-│   │   │       ├──side-navbar.php
-│   │   │       ├──tarjeta-desafio.php
-│   │   │       ├──tarjeta-envio-desafio.php
-│   │   │       └──tarjeta-historial.php
-│   │   │   ├──about-us.php
-│   │   │   ├──create-account.php
-│   │   │   ├──create-team.php
-│   │   │   ├──dashboard.php
-│   │   │   ├──home.php
-│   │   │   ├──internal-error.php
-│   │   │   ├──login.php
-│   │   │   ├──mail-desafio.html
-│   │   │   ├──not-found.php
-│   │   │   └──search-team.php
-│   ├── Config/
-│   │   └── config.php
-│   ├── Core/
-│   │   ├── Database/
-│   │   │   ├── ConnectionBuilder.php
-│   │   │   ├── Database.php
-│   │   │   └── QueryBuilder.php
-│   │   ├── Exceptions/
-│   │   │   ├── InvalidValueFormatException.php
-│   │   │   └── RouteNotFoundException.php
-│   │   ├── JWT/
-│   │   │   └── Auth.php
-│   │   ├── Middelware/
-│   │   │   └── AuthMiddelware.php
-│   │   ├── Traits/
-│   │   │   └── Loggeable.php
-│   │   ├── AbstractController.php
-│   │   ├── AbstractModel.php
-│   │   ├── ModelFactory.php
-│   │   ├── Request.php
-│   │   └── Router.php
-│   ├── Deploy_database/
-│   │   ├── README.md
-│   │   └── database_schema.sql
-│   └── bootstrap.php
-├── vendor/
-├── .env
-├── Makefile
-├── phinx.php
-└── composer.json
-```
 
-## Análisis de peticiones HTTP
+## Índice
 
-Responsable: index.php + Router (Core/Router.php)
+* [Autores](#autores)
+* [Acerca del Proyecto](#acerca-del-proyecto)
+  * [Propósito](#propósito)
+  * [Objetivos](#objetivos)
+  * [Qué hace (resumen funcional)](#qué-hace-resumen-funcional)
+* [Tecnologías Empleadas](#tecnologías-empleadas)
+  * [Frontend](#frontend)
+  * [Backend & Infraestructura](#backend-&-infraestructura)
+  * [Base de datos y cache](#base-de-datos-y-cache)
+  * [Otras herramientas](#otras-herramientas)
+* [Cómo ejecutar en local](#cómo-ejecutar-en-local)
 
-Descripción: El archivo public/index.php actúa como Front Controller. Toma la URL solicitada por el navegador ($\_SERVER['REQUEST_URI']) y la pasa al enrutador (Router) para determinar qué controlador debe manejarla.
+## Autores
+* **Sebastián Juárez** - [SebaJuarez](https://github.com/SebaJuarez)
+* **Agustín DePaola** - [Daggys](https://github.com/Dagyss)
+* **Esteban Iarza**
 
-## Mapeo de URLs en funcionalidades
+## Acerca del Proyecto
 
-Responsable: Router (Core/Router.php)
+### Propósito
+**Matchmaking Fútbol 5** es una plataforma web diseñada para equipos de fútbol amateur que facilita la organización de partidos, optimiza el emparejamiento entre rivales equilibrados mediante un ranking ELO por equipos y fomenta la deportividad con un sistema de reputación.
 
-Descripción: Mapea rutas como /books o /about-us con métodos de controladores (PageController@books).
+### Objetivos
+* Centralizar la organización de partidos y el historial de equipos.
+* Mejorar la calidad de los emparejamientos utilizando un ranking ELO por equipos.
+* Agilizar la coordinación entre capitanes y la confirmación de resultados.
+* Proveer métricas básicas y reputación para incentivar el fair-play.
 
-## Generación de respuestas HTTP
+### Qué hace (resumen funcional)
+* Creación y gestión de **equipos** (nombre, escudo, descripción, ubicación).
+* Publicación y búsqueda de **desafíos** (partidos) por ranking y disponibilidad.
+* Confirmación de resultados por ambas partes y registro de resultados.
+* Cálculo y actualización automática del **ranking ELO** por equipo.
+* Sistema de **reputación y calificación** post-partido.
+* Historial de partidos y estadísticas básicas por equipo.
+* Chat de coordinación: redirección a **WhatsApp** mediante enlace.
 
-Responsable: Controladores (App/Controllers/_.php) + Vistas (App/Views/_.php)
+## Tecnologías Empleadas
 
-Descripción: Cada controlador se encarga de procesar la lógica de la solicitud y retornar una vista (HTML, PDF, etc.). Además, puede establecer códigos HTTP como http_response_code(404).
+### Frontend
+(Interfaz server-rendered PHP + assets)
 
-## Generación de registros
+<a href="https://www.php.net/">
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" width=140>
+</a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" width=120>
+</a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" width=120>
+</a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" width=120>
+</a>
 
-Responsable: bootstrap.php + Monolog
+**Descripción :** vistas renderizadas en servidor con PHP; assets en `public/` (CSS, JS, imágenes).
 
-Descripción: Se utiliza Monolog para registrar errores, info de rutas, excepciones no capturadas, etc. Ideal para debug en desarrollo.
+---
 
-## Persistencia
+### Backend & Infraestructura
 
-Responsable: Modelos (App/Models/\*.php) y un posible Database en Core/
+<a href="https://www.docker.com/">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" width=140>
+</a>
+<a href="https://kubernetes.io/">
+  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes" width=140>
+</a>
+<a href="https://www.terraform.io/">
+  <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform" width=140>
+</a>
+<a href="https://jwt.io/">
+  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge" alt="JWT" width=120>
+</a>
+<a href="https://cloud.google.com/">
+  <img src="https://img.shields.io/badge/GCP-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" alt="GCP" width=140>
+</a>
+<a href="https://www.gnu.org/software/make/">
+  <img src="https://img.shields.io/badge/Make-000000?style=for-the-badge&logo=gnu&logoColor=white" alt="Make" width=120>
+</a>
+<a href="https://monologphp.github.io/">
+  <img src="https://img.shields.io/badge/Monolog-2F3E46?style=for-the-badge" alt="Monolog" width=120>
+</a>
 
-Descripción: Por ahora, no se implementa, pero se contempla creando un espacio para modelos y conexión a base de datos futura
+**Descripción :** PHP en backend, JWT para auth, Docker + Kubernetes (GKE) para despliegue, Terraform para IaC. Makefile para comandos locales. Monolog para logging.
 
-## Configuración
+---
 
-Responsable: Archivo src/Config/config.php
+### Base de Datos y Cache
 
-Descripción: La configuración central se debe almacenar en un lugar único. Ahí van las rutas de logs, entorno (DEBUG, PRODUCTION), rutas a recursos, etc.
+<a href="https://www.mysql.com/">
+  <img src="https://img.shields.io/badge/MySQL-00758F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" width=140>
+</a>
+<a href="https://redis.io/">
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" width=140>
+</a>
 
-## Diferentes representaciones de la información
+**Descripción :** MySQL como fuente de verdad (esquema relacional) y Redis para revocación y rotación de tokens.
 
-Responsable: Controladores + Vistas + Librerías externas
+---
 
-Descripción:
+### Otras herramientas
 
-- HTML → Views/\*.php
-- JSON → echo json_encode($data);
+<a href="https://getcomposer.org/">
+  <img src="https://img.shields.io/badge/Composer-7D8FAD?style=for-the-badge&logo=composer&logoColor=white" alt="Composer" width=140>
+</a>
+<a href="https://github.com/">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" width=140>
+</a>
+<a href="https://github.com/filp/whoops">
+  <img src="https://img.shields.io/badge/Whoops-error?style=for-the-badge&logo=php" alt="Whoops" width=120>
+</a>
+<a href="https://phpmailer.github.io/PHPMailer/">
+  <img src="https://img.shields.io/badge/PHPMailer-Email?style=for-the-badge" alt="PHPMailer" width=120>
+</a>
+<a href="https://github.com/nrk/predis">
+  <img src="https://img.shields.io/badge/Predis-RedisClient?style=for-the-badge" alt="Predis" width=120>
+</a>
 
-## Tecnologías y Herramientas
+## Cómo ejecutar en local
 
-- PHP >= 7.4.3
-- Composer para gestión de dependencias
-- Sistema de logs ubicado en `/Logs/logs.app`
+**Requisitos:** Git, Docker, Make (opcional)
 
-## Instrucciones de uso (modo local)
-
-### 1. Crear un directorio de trabajo
-Elegir un directorio en tu máquina donde quieras alojar el proyecto y crealo desde la terminal:
-
-```bash
-mkdir ~/proyectos
-cd ~/proyectos
-```
-
-### 2. Crear un directorio de trabajo
-Dentro del directorio creado, clonar el repositorio:
-
+1. Clonar el repo:
 ```bash
 git clone https://github.com/pfrovdev/matchmaking-futbol-paw.git
-```
-
-### 3. Ingresar al proyecto
-Acceder al directorio del proyecto:
-
-```bash
 cd matchmaking-futbol-paw
-
 ```
 
-### 4. Levantar los servicios
-Ejecutar:
+2. Copiar el `.env.example` a `.env` y ajustar variables:
+```bash
+cp .env.example .env
+# editar .env: DB credentials, JWT_SECRET, etc.
+```
 
+3. Levantar la pila:
 ```bash
 make up
+# o
+docker compose up -d
 ```
-Esto iniciará los servicios necesarios (PHP, MySQL, Redis) y la aplicación estará disponible ingreando en el navegador:
 
-http://localhost:9999
-
-### 5.Inicializar la base de datos
-En otra terminal (sin detener los servicios anteriores), ejecutar:
-
+4. Inicializar la base de datos:
 ```bash
 make reset_db
+# o ejecutar el SQL en src/Deploy_database/database_schema.sql
 ```
-Este comando:
-    - Crea la base de datos.
 
-    - Genera la estructura de tablas.
-
-    - Aplica las migraciones necesarias.
-
-### 6. Insertar datos de demostración
-Para cargar datos ficticios en la base de datis y poder probar el sistema, correr:
-
+5. (Opcional) Cargar datos de demo:
 ```bash
 make insertar_datos_demo
 ```
 
-## Aplicación Web (versión online)
+6. Acceder: `http://localhost:9999`
 
-El sistema también está disponible en hosting:
-
-http://34.30.100.40/
-
-
-## Deploy en Google Cloud con Terraform y Kubernetes
-
-Este proyecto fue desplegado en la plataforma gratuita de Google cloud utilizando una infraestructura orquestada con Terraform y Kubernetes.
-A continuación, se documenta el procedimiento completo seguido para lograr el deploy de los servicios de la aplicación (Nginx, PHP/App y MySQL).
-
-1. Construcción y Push de Imágenes Docker
-
-Antes de desplegar en Kubernetes, fue necesario construir las imágenes Docker personalizadas para cada uno de los servicios:
-
-Nginx → encargado de servir la aplicación y manejar el enrutamiento.
-
-App/PHP → contiene el código de la aplicación web.
-
-MySQL → base de datos persistente del sistema.
-
-Cada imagen las construyó y se subió al Artifact Registry de Google cloud:
-
-### Nginx
-docker build -t us-central1-docker.pkg.dev/matchmaking-paw/matchmaking-repo/nginx:latest -f deploy/nginx/Dockerfile .
-docker push us-central1-docker.pkg.dev/matchmaking-paw/matchmaking-repo/nginx:latest
-
-### App/PHP
-docker build -t us-central1-docker.pkg.dev/matchmaking-paw/matchmaking-repo/app:latest -f deploy/app/Dockerfile .
-docker push us-central1-docker.pkg.dev/matchmaking-paw/matchmaking-repo/app:latest
-
-### MySQL
-docker build -t us-central1-docker.pkg.dev/matchmaking-paw/matchmaking-repo/mysql:latest -f deploy/mysql/Dockerfile .
-docker push us-central1-docker.pkg.dev/matchmaking-paw/matchmaking-repo/mysql:latest
-
-Con esto nos aseguramos que las imágenes estén disponibles en una ubicación centralizada y segura, optimizada para desplegar en Kubernetes dentro del mismo proyecto de Google cloud.
-
-2. Manejo de configuraciones y secrets
-
-### ConfigMaps
-
-Las configuraciones de la aplicación (variables de entorno comunes como DB_HOST, DB_USER, JWT parámetros, correo, etc.) las gestionamos mediante un ConfigMap:
-
-Archivo: deploy/kubernetes/configmap-env.yaml
-
-Esto permite desacoplar las configuraciones del código y mantenerlas versionadas de forma clara.
-
-### Secrets
-
-Las credenciales sensibles (contraseñas de base de datos, JWT_SECRET, credenciales de email, etc.) se almacenaron como Secrets en Kubernetes:
-
-kubectl create secret generic app-secrets \
-  --from-literal=DB_ROOT_PASSWORD=blablabla \
-  --from-literal=DB_PASSWORD=blablabla \
-  --from-literal=JWT_SECRET=blablabla... \
-  --from-literal=MAIL_PASSWORD=blablabla
-
-Con esto, nos aseguramos que los valores confidenciales no estén en el código ni en el repositorio, cumpliendo buenas prácticas de seguridad.
-
-3. Persistencia de la base de datos
-
-La base de datos MySQL necesita almacenamiento persistente para no perder datos al reiniciar o actualizar los pods.
-Se creó un PersistentVolumeClaim (PVC):
-
-Archivo: deploy/kubernetes/mysql-pvc.yaml
-
-resources:
-  requests:
-    storage: 5Gi
-
-Esto reserva 5GB de almacenamiento en Google cloud, garantizando la durabilidad de los datos.
-
-4. Despliegue de servicios en Kubernetes
-
-Cada componente de la aplicación se define como un Deployment y expone sus puertos mediante un Service.
-
-### Para MySQL
-
-Archivo: deploy/kubernetes/mysql-deployment.yaml
-Archivo: deploy/kubernetes/mysql-service.yaml
-
-Deployment con 1 réplica.
-
-Variables de entorno obtenidas de ConfigMap y Secrets.
-
-Montaje del PVC en /var/lib/mysql.
-
-Service expuesto en el puerto 3306.
-
-### Para Nginx y App/PHP
-
-Los deployments de Nginx y App siguen una estructura similar:
-
-Imagen personalizada desde el Artifact Registry.
-
-Variables de configuración mediante ConfigMaps y Secrets.
-
-Exposición de puertos con Services.
-
-Balanceo de carga manejado por Kubernetes (LoadBalancer).
-
-5. Terraform para la Infraestructura
-
-Para gestionar la infraestructura en Google cloud, utilizamos Terraform.
-Entre los recursos definidos se encuentran:
-
-Cluster de GKE (Google Kubernetes Engine)
-
-Artifact Registry para almacenar imágenes Docker
-
-Configuración de red y roles IAM necesarios
-
-Terraform nos permite automatizar y versionar toda la infraestructura, garantizando que cualquier miembro del equipo pueda replicar el entorno con un simple terraform apply.
-
-6. Flujo de deploy completo
-
-Crear proyecto en Google cloud y habilitar la cuenta gratuita.
-
-Configurar Terraform para aprovisionar el cluster de Kubernetes.
-
-Construir y pushear las imágenes Docker al Artifact Registry.
-
-Crear ConfigMaps y secrets en el cluster.
-
-Aplicar los manifiestos de Kubernetes:
-
-kubectl apply -f deploy/kubernetes/configmap-env.yaml
-kubectl apply -f deploy/kubernetes/mysql-pvc.yaml
-kubectl apply -f deploy/kubernetes/mysql-deployment.yaml
-kubectl apply -f deploy/kubernetes/mysql-service.yaml
-kubectl apply -f deploy/kubernetes/nginx-php-deployment.yaml
-kubectl apply -f deploy/kubernetes/nginx-service.yaml
-kubectl apply -f deploy/kubernetes/redis-deployment.yaml
-kubectl apply -f deploy/kubernetes/redis-service.yaml
-
-Verificar que los pods estén en estado running:
-En una terminal ejecutar:
-```bash
-kubectl get pods
-```
-
-Acceder a la aplicación a través de la IP pública del LoadBalancer generado.
-Para obtenerla ejecutar desde una terminal:
-```bash
-kubectl get svc
-```
-
-7. Resultados
-
-La aplicación quedó desplegada en un cluster Kubernetes en Google cloud, completamente desacoplada y escalable.
-
-Gracias a Terraform, la infraestructura es reproducible.
-
-Los Secrets y ConfigMaps permiten un manejo seguro y ordenado de configuraciones.
-
-La base de datos cuenta con almacenamiento persistente para garantizar integridad de los datos.
+<!-- MARKDOWN LINKS -->
+[contributors-shield]: https://img.shields.io/github/contributors/pfrovdev/matchmaking-futbol-paw.svg?style=flat-square
+[contributors-url]: https://github.com/pfrovdev/matchmaking-futbol-paw/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/pfrovdev/matchmaking-futbol-paw.svg?style=flat-square
+[forks-url]: https://github.com/pfrovdev/matchmaking-futbol-paw/network/members
+[stars-shield]: https://img.shields.io/github/stars/pfrovdev/matchmaking-futbol-paw.svg?style=flat-square
+[stars-url]: https://github.com/pfrovdev/matchmaking-futbol-paw/stargazers
+[issues-shield]: https://img.shields.io/github/issues/pfrovdev/matchmaking-futbol-paw.svg?style=flat-square
+[issues-url]: https://github.com/pfrovdev/matchmaking-futbol-paw/issues
